@@ -18,5 +18,8 @@
   "homepage": "https://github.com/raf-swiderski/tennis-club-api#readme",
   "devDependencies": {
     "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
   }
 }
