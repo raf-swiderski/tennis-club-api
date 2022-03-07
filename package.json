@@ -1,0 +1,22 @@
+{
+  "name": "tennis-club-api",
+  "version": "1.0.0",
+  "description": "Tech test where you are the president of the local Tennis Club. Your responsibilities include managing its players and their rankings. You’ve been asked to prepare a backend API in your preferred programming language that consists a series of endpoints.",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raf-swiderski/tennis-club-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raf-swiderski/tennis-club-api/issues"
+  },
+  "homepage": "https://github.com/raf-swiderski/tennis-club-api#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
