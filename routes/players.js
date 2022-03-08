@@ -18,8 +18,7 @@ async function checkIfPlayerExists(req, res, next) {
 }
 
 function getAge(birthDate) { // format: '1996-06-26' => 25
-
-    const yearInMs = 3.15576e+10 // This constant is one year in milliseconds
+    const yearInMs = 3.15576e+10 // One year in milliseconds
     return Math.floor((new Date() - new Date(birthDate).getTime()) / yearInMs)
 }
 
@@ -62,6 +61,17 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
         }   
     }
 
+
+})
+
+router.get('/all', async (req, res) => {
+
+    try {
+        const allPlayers = await Player.find()
+        res.status(200).json(allPlayers)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
 
 })
 
