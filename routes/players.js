@@ -50,7 +50,8 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
             lastName: req.body.lastName,
             nationality: req.body.nationality,
             dob: req.body.dob,
-            score: 1200
+            score: 1200,
+            rank: 'Unranked'
         })
     
         try {
@@ -64,10 +65,15 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
 
 })
 
+
 router.get('/all', async (req, res) => {
 
+    var attributes = {} 
+    req.query.nationality ? attributes.nationality = req.query.nationality : null
+    req.query.rank ? attributes.rank = req.query.rank : null
+
     try {
-        const allPlayers = await Player.find()
+        const allPlayers = await Player.find(attributes).exec();
         res.status(200).json(allPlayers)
     } catch (error) {
         res.status(400).json({ message: error.message })

@@ -20,6 +20,10 @@ const playerSchema = new mongoose.Schema({
     score: {
         type: Number,
         required: true
+    },
+    rank: {
+        type: String,
+        required: false
     }
 })
 
