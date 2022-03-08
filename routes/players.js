@@ -35,7 +35,6 @@ router.get('/register', (req, res) => {
 router.post('/register', checkIfPlayerExists, async (req, res) => {
 
     const age = getAge(req.body.dob)
-    console.log(age)
 
     if (age < 16 ) {
 
@@ -51,7 +50,8 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             nationality: req.body.nationality,
-            dob: req.body.dob
+            dob: req.body.dob,
+            score: 1200
         })
     
         try {
