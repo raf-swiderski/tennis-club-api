@@ -16,6 +16,10 @@ const playerSchema = new mongoose.Schema({
     dob: {
         type: String,
         required: true
+    },
+    score: {
+        type: Number,
+        required: true
     }
 })
 
