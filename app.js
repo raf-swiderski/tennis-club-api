@@ -14,39 +14,10 @@ db.once('open', () => console.log('Connected to database'))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('static'))
 
-app.get('/', (req, res) => {
-    res.redirect('/register')
-})
+app.use(express.json())
 
-const Player = require('./models/player')
-
-app.route('/register')
-  
-    .get((req, res) => {
-        res.sendFile('static/register.html', {root: __dirname })
-    })
-
-    .post( async (req, res) => {
-    
-        const player = new Player({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            nationality: req.body.nationality,
-            dob: req.body.dob
-        })
-    
-        try {
-            const newPlayer = await player.save()
-            res.status(201).json(newPlayer)
-        } catch (error) {
-            res.status(400).json({ message: error.message })
-        }   
-
-    })
-/
-
-// app.use(express.json())
-
+const playersRouter = require('./routes/players')
+app.use('/players', playersRouter)
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)
