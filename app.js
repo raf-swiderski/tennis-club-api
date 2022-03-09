@@ -17,7 +17,9 @@ app.use(express.static('static'))
 app.use(express.json())
 
 const playersRouter = require('./routes/players')
+const matchesRouter = require('./routes/matches')
 app.use('/players', playersRouter)
+app.use('/matches', matchesRouter)
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)

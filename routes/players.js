@@ -27,8 +27,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/register', (req, res) => {
-    res.sendFile(path.resolve('static/register.html'));
-    
+    res.sendFile(path.resolve('static/views/register.html'));
 })
 
 router.post('/register', checkIfPlayerExists, async (req, res) => {
@@ -50,8 +49,9 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
             lastName: req.body.lastName,
             nationality: req.body.nationality,
             dob: req.body.dob,
-            score: 1200,
-            rank: 'Unranked'
+            score: 2000,
+            rank: 'Unranked',
+            gamesPlayed: 0
         })
     
         try {
@@ -65,6 +65,10 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
 
 })
 
+// remember to display age not dob
+// ordered by points (descending)i.	The unranked players should also be ordered by points (descending) but should appear at the bottom of the list, below all other ranks.
+
+// Query string e.g. ?rank=Unranked&nationality=United+Kingdom
 
 router.get('/all', async (req, res) => {
 
@@ -74,6 +78,7 @@ router.get('/all', async (req, res) => {
 
     try {
         const allPlayers = await Player.find(attributes).exec();
+        
         res.status(200).json(allPlayers)
     } catch (error) {
         res.status(400).json({ message: error.message })

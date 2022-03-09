@@ -24,6 +24,10 @@ const playerSchema = new mongoose.Schema({
     rank: {
         type: String,
         required: false
+    },
+    gamesPlayed: {
+        type: String,
+        required: false
     }
 })
 
