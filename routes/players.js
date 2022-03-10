@@ -12,7 +12,7 @@ async function checkIfPlayerExists(req, res, next) {
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
-    res.player = player 
+    res.player = player[0]
     next()
 }
 
@@ -39,7 +39,7 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
 
         res.status(400).json({ message: 'Players must be at least 16 years old to be able to enter the club'})
 
-    } else if (res.player[0] != null ) {
+    } else if (res.player != null ) {
 
         res.status(400).json({ message: 'This player already exists'})
 
@@ -51,7 +51,7 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
             nationality: req.body.nationality,
             dob: req.body.dob,
             points: 1200,
-            rank: 'Unranked',
+            rankName: 'Unranked',
             gamesPlayed: 0
         })
 
@@ -72,14 +72,50 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
 
 // Query string e.g. ?rank=Unranked&nationality=United+Kingdom
 
+function sortPlayersByPoints(allPlayers) {
+    return allPlayers.sort((a, b) => (a.points < b.points) ? 1 : -1)
+}
+
+function addSeed(allPlayers) {
+    allPlayers.forEach((player, index) => {
+        player.seed = index + 1
+    });
+}
+
+function addAge(allPlayers) {
+    allPlayers.forEach((player, index) => {
+        let age = getAge(player.dob)
+        player.age = age
+    });
+}
+
+function deleteUnwantedProperties(allPlayers) {
+    allPlayers.forEach((player, index) => {
+        delete player.gamesPlayed
+        delete player._id
+        delete player.dob
+        delete player.__v
+    });
+}
+
 router.get('/all', async (req, res) => {
 
     var attributes = {} 
     req.query.nationality ? attributes.nationality = req.query.nationality : null
-    req.query.rank ? attributes.rank = req.query.rank : null
+    req.query.rankName ? attributes.rankName = req.query.rankName : null
+
+
 
     try {
-        const allPlayers = await Player.find(attributes).exec();
+        var allPlayers = await Player.find(attributes).lean().exec(); // When you add .lean() to the Mongoose Query Builder, it eturns a plain javascript associative array, that you can add keys to.
+
+        sortPlayersByPoints(allPlayers);
+        addSeed(allPlayers); // adding these properties to each Player. 'Seed' is the current position in the whole ranking. 
+        addAge(allPlayers);
+
+        // remove 'gamesPlayed', 'id', '__v', 'dob' properties
+        deleteUnwantedProperties(allPlayers);
+
         res.status(200).json(allPlayers)
     } catch (error) {
         res.status(400).json({ message: error.message })

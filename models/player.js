@@ -21,7 +21,7 @@ const playerSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    rank: {
+    rankName: {
         type: String,
         required: true
     },

@@ -21,28 +21,28 @@ async function checkIfMatchPlayersExist(req, res, next) {
 function calculateNewPoints(res) {
     let winner = res.winner
     let loser = res.loser
-    res.winner.points = Math.round(winner.points + (loser.points / 10))
-    res.loser.points = Math.round(loser.points - (loser.points / 10))
+    res.winner.points = Math.floor(winner.points + (loser.points / 10))
+    res.loser.points = Math.floor(loser.points - (loser.points / 10))
     return res
 }
 
-function updateRank(player) {
+function updateRankName(player) {
     
     const points = player.points
     const gamesPlayed = player.gamesPlayed
 
     if (gamesPlayed >= 3) {
         if (points < 3000) {
-            player.rank = 'Bronze'  
+            player.rankName = 'Bronze'  
         } else if (points > 3000 && points < 5000) {           
-            player.rank = 'Silver'       
+            player.rankName = 'Silver'       
         } else if (points > 5000 && points < 10000) {          
-            player.rank = 'Gold'          
+            player.rankName = 'Gold'          
         } else {         
-            player.rank = 'Supersonic Legend'
+            player.rankName = 'Supersonic Legend'
         }
     } else {
-        player.rank = 'Unranked'
+        player.rankName = 'Unranked'
     }
 
     return player
@@ -64,15 +64,13 @@ router.post('/update', checkIfMatchPlayersExist, async (req, res) => {
         res.winner.gamesPlayed += 1
         res.loser.gamesPlayed += 1
 
-        res.winner = updateRank(res.winner)
-        res.loser = updateRank(res.loser)
+        res.winner = updateRankName(res.winner)
+        res.loser = updateRankName(res.loser)
 
         let winner, loser
         try { 
             winner = await Player.findOneAndUpdate({ firstName: res.winner.firstName,  lastName: res.winner.lastName }, res.winner );
             loser = await Player.findOneAndUpdate({ firstName: res.loser.firstName,  lastName: res.loser.lastName }, res.loser );
-            console.log(winner)
-            console.log(loser)
             res.status(200).json([
                 { message: "Succesfully updated the points of both players" }, 
                 { winner: res.winner },
