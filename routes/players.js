@@ -3,6 +3,8 @@ const router = express.Router()
 const Player = require('../models/player')
 var path = require('path');
 
+// middleware
+
 async function checkIfPlayerExists(req, res, next) {
     let player
     try { // checking the database
@@ -18,6 +20,8 @@ function getAge(birthDate) { // format: '1996-06-26' => 25
     const yearInMs = 3.15576e+10 // One year in milliseconds
     return Math.floor((new Date() - new Date(birthDate).getTime()) / yearInMs)
 }
+
+// routes
 
 router.get('/', (req, res) => {
     res.redirect('/players/register')
@@ -46,11 +50,11 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
             lastName: req.body.lastName,
             nationality: req.body.nationality,
             dob: req.body.dob,
-            score: 1200,
+            points: 1200,
             rank: 'Unranked',
             gamesPlayed: 0
         })
-    
+
         try {
             const newPlayer = await player.save()
             res.status(201).json(newPlayer)
@@ -63,8 +67,7 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
 })
 
 // remember to display age not dob
-// add up the games played when u update match
-// change score to points
+// add up the games played when you update match
 // ordered by points (descending)i.	The unranked players should also be ordered by points (descending) but should appear at the bottom of the list, below all other ranks.
 
 // Query string e.g. ?rank=Unranked&nationality=United+Kingdom
@@ -77,7 +80,6 @@ router.get('/all', async (req, res) => {
 
     try {
         const allPlayers = await Player.find(attributes).exec();
-        
         res.status(200).json(allPlayers)
     } catch (error) {
         res.status(400).json({ message: error.message })

@@ -17,17 +17,17 @@ const playerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    score: {
+    points: {
         type: Number,
         required: true
     },
     rank: {
         type: String,
-        required: false
+        required: true
     },
     gamesPlayed: {
-        type: String,
-        required: false
+        type: Number,
+        required: true
     }
 })
 
