@@ -6,8 +6,7 @@ var path = require('path');
 // find players 
 
 async function checkIfMatchPlayersExist(req, res, next) {
-    let winner
-    let loser
+    let winner, loser
     try { // checking the database
         winner = await Player.find({ firstName: req.body.winnerFirstName, lastName: req.body.winnerLastName }).exec();
         loser = await Player.find({ firstName: req.body.loserFirstName, lastName: req.body.loserLastName }).exec();
@@ -23,7 +22,7 @@ router.get('/update', (req, res) => {
     res.sendFile(path.resolve('static/views/update.html'))
 });
 
-function calculateScores(res) {
+function calculateNewScores(res) {
     res.winner[0].score = Math.round(res.winner[0].score + (res.loser[0].score / 10))
     res.loser[0].score = Math.round(res.loser[0].score - (res.loser[0].score / 10))
     return res
@@ -34,8 +33,21 @@ router.post('/update', checkIfMatchPlayersExist, async (req, res) => {
     if (res.winner == [] || res.loser == []) {
         return res.status(404).json({ message: 'Cannot find one or both of these players. Please check their names'})
     } else {
-        res = calculateScores(res) 
+        res = calculateNewScores(res) 
 
+        let winner, loser
+        try { 
+            winner = await Player.findOneAndUpdate({ firstName: res.winner[0].firstName,  lastName: res.winner[0].lastName }, { score: res.winner[0].score });
+            loser = await Player.findOneAndUpdate({ firstName: res.loser[0].firstName,  lastName: res.loser[0].lastName }, { score: res.loser[0].score });
+            res.status(200).json([
+                { message: "Succesfully updated the score" }, 
+                { winner: res.winner[0] },
+                { loser: res.loser[0] }
+            ])
+        } catch (error) {
+            return res.status(500).json({ message: error.message })
+        }
+        
 
     }
     
