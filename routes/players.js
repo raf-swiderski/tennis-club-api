@@ -7,9 +7,6 @@ async function checkIfPlayerExists(req, res, next) {
     let player
     try { // checking the database
         player = await Player.find({ firstName: req.body.firstName, lastName: req.body.lastName }).exec();
-        if (player == null) {
-            return res.status(404).json({ message: 'Cannot find player'})
-        }
     } catch (error) {
         return res.status(500).json({ message: error.message })
     }
@@ -49,7 +46,7 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
             lastName: req.body.lastName,
             nationality: req.body.nationality,
             dob: req.body.dob,
-            score: 2000,
+            score: 1200,
             rank: 'Unranked',
             gamesPlayed: 0
         })
@@ -66,6 +63,8 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
 })
 
 // remember to display age not dob
+// add up the games played when u update match
+// change score to points
 // ordered by points (descending)i.	The unranked players should also be ordered by points (descending) but should appear at the bottom of the list, below all other ranks.
 
 // Query string e.g. ?rank=Unranked&nationality=United+Kingdom
