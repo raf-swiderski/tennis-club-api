@@ -48,12 +48,6 @@ function updateRank(player) {
     return player
 }
 
-function updateGamesPlayed(player) {
-    const gamesPlayed = player.gamesPlayed
-    player.gamesPlayed = gamesPlayed + 1
-    return player
-}
-
 // routes
 
 router.get('/update', (req, res) => {
@@ -66,9 +60,9 @@ router.post('/update', checkIfMatchPlayersExist, async (req, res) => {
         res.status(404).json({ message: 'Cannot find one or both of these players. Please check their names'})
     } else {
         res = calculateNewPoints(res) // passing the entire response object here, because the winners new points depends on the losers points
-        
-        res.winner = updateGamesPlayed(res.winner)
-        res.loser = updateGamesPlayed(res.loser)
+
+        res.winner.gamesPlayed += 1
+        res.loser.gamesPlayed += 1
 
         res.winner = updateRank(res.winner)
         res.loser = updateRank(res.loser)
