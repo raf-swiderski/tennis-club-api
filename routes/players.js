@@ -50,7 +50,7 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
             lastName: req.body.lastName,
             nationality: req.body.nationality,
             dob: req.body.dob,
-            points: 1200,
+            points: 10000,
             rankName: 'Unranked',
             gamesPlayed: 0
         })
@@ -72,8 +72,22 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
 
 // Query string e.g. ?rank=Unranked&nationality=United+Kingdom
 
+function sortUnrankedPlayers(allPlayers) {
+    var unrankedPlayers = allPlayers.filter(player => player.rankName == 'Unranked') // moves all unranked players to separate array.
+
+    allPlayers = allPlayers.filter(player => !unrankedPlayers.includes(player))
+
+    sortPlayersByPoints(unrankedPlayers);
+
+    for (let i = 0; i < unrankedPlayers.length; i++) {
+        const player = unrankedPlayers[i];
+        allPlayers.push(player); // puts them back in at the bottom. 
+    }
+    return allPlayers
+}
+
 function sortPlayersByPoints(allPlayers) {
-    return allPlayers.sort((a, b) => (a.points < b.points) ? 1 : -1)
+    allPlayers.sort((a, b) => (a.points < b.points) ? 1 : -1)
 }
 
 function addSeed(allPlayers) {
@@ -91,7 +105,6 @@ function addAge(allPlayers) {
 
 function deleteUnwantedProperties(allPlayers) {
     allPlayers.forEach((player, index) => {
-        delete player.gamesPlayed
         delete player._id
         delete player.dob
         delete player.__v
@@ -110,10 +123,11 @@ router.get('/all', async (req, res) => {
         var allPlayers = await Player.find(attributes).lean().exec(); // When you add .lean() to the Mongoose Query Builder, it eturns a plain javascript associative array, that you can add keys to.
 
         sortPlayersByPoints(allPlayers);
+        allPlayers = sortUnrankedPlayers(allPlayers) // Unranked players moved to bottom of seed ranking, while still themselves being ordered by points.
         addSeed(allPlayers); // adding these properties to each Player. 'Seed' is the current position in the whole ranking. 
         addAge(allPlayers);
 
-        // remove 'gamesPlayed', 'id', '__v', 'dob' properties
+        // remove 'id', '__v', 'dob' properties
         deleteUnwantedProperties(allPlayers);
 
         res.status(200).json(allPlayers)
