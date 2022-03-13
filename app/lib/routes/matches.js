@@ -3,29 +3,8 @@ const router = express.Router()
 const Player = require('../models/player')
 var path = require('path');
 const { calculateWinner, calculateLoser } = require('../business-logic/calculatePoints')
+const calculateRankName = require('../business-logic/calculateRankName')
 const getPlayer = require('../db-queries/getPlayer');
-
-function updateRankName(player) {
-    
-    const points = player.points
-    const gamesPlayed = player.gamesPlayed
-
-    if (gamesPlayed >= 3) {
-        if (points < 3000) {
-            player.rankName = 'Bronze'  
-        } else if (points > 3000 && points < 5000) {           
-            player.rankName = 'Silver'       
-        } else if (points > 5000 && points < 10000) {          
-            player.rankName = 'Gold'          
-        } else {         
-            player.rankName = 'Supersonic Legend'
-        }
-    } else {
-        player.rankName = 'Unranked'
-    }
-
-    return player
-}
 
 // routes
 
@@ -52,8 +31,8 @@ router.post('/update', async (req, res, next) => {
         res.winner.gamesPlayed += 1
         res.loser.gamesPlayed += 1
 
-        res.winner = updateRankName(res.winner)
-        res.loser = updateRankName(res.loser)
+        res.winner = calculateRankName(res.winner)
+        res.loser = calculateRankName(res.loser)
 
         let winner, loser
         try { 

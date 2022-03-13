@@ -4,19 +4,6 @@ const Player = require('../models/player')
 var path = require('path');
 const getPlayer = require('../db-queries/getPlayer');
 
-// middleware
-
-// async function checkIfPlayerExists(req, res, next) {
-//     let player
-//     try { // checking the database
-//         player = await Player.find({ firstName: req.body.firstName, lastName: req.body.lastName }).exec();
-//     } catch (error) {
-//         return res.status(500).json({ message: error.message })
-//     }
-//     res.player = player[0]
-//     next()
-// }
-
 function getAge(birthDate) { // format: '1996-06-26' => 25
     const yearInMs = 3.15576e+10 // One year in milliseconds
     return Math.floor((new Date() - new Date(birthDate).getTime()) / yearInMs)
@@ -67,46 +54,15 @@ router.post('/register', getPlayer, async (req, res) => {
 
 })
 
-// Query string e.g. ?rank=Unranked&nationality=United+Kingdom
+const { sortUnrankedPlayers,
+    sortPlayersByPoints,
+    addSeed,
+    addAge,
+    deleteUnwantedProperties
+} = require('../business-logic/allPlayers')
 
-function sortUnrankedPlayers(allPlayers) {
-    var unrankedPlayers = allPlayers.filter(player => player.rankName == 'Unranked') // moves all unranked players to separate array.
-
-    allPlayers = allPlayers.filter(player => !unrankedPlayers.includes(player))
-
-    sortPlayersByPoints(unrankedPlayers);
-
-    for (let i = 0; i < unrankedPlayers.length; i++) {
-        const player = unrankedPlayers[i];
-        allPlayers.push(player); // puts them back in at the bottom. 
-    }
-    return allPlayers
-}
-
-function sortPlayersByPoints(allPlayers) {
-    allPlayers.sort((a, b) => (a.points < b.points) ? 1 : -1)
-}
-
-function addSeed(allPlayers) {
-    allPlayers.forEach((player, index) => {
-        player.seed = index + 1
-    });
-}
-
-function addAge(allPlayers) {
-    allPlayers.forEach((player, index) => {
-        let age = getAge(player.dob)
-        player.age = age
-    });
-}
-
-function deleteUnwantedProperties(allPlayers) {
-    allPlayers.forEach((player, index) => {
-        delete player._id
-        delete player.dob
-        delete player.__v
-    });
-}
+// This route takes its parameters from the query string
+// e.g. all?rank=Unranked&nationality=United+Kingdom
 
 router.get('/all', async (req, res) => {
 
@@ -131,7 +87,5 @@ router.get('/all', async (req, res) => {
     }
 
 })
-
-
 
 module.exports = router;
