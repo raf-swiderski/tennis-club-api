@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Player = require('../models/player')
 var path = require('path');
-
+const calculateNewPoints = require('../business-logic/calculatePoints').default
 // middleware
 
 async function checkIfMatchPlayersExist(req, res, next) {
@@ -16,14 +16,6 @@ async function checkIfMatchPlayersExist(req, res, next) {
     res.winner = winner[0] 
     res.loser = loser[0]
     next()
-}
-
-function calculateNewPoints(res) {
-    let winner = res.winner
-    let loser = res.loser
-    res.winner.points = Math.floor(winner.points + (loser.points / 10))
-    res.loser.points = Math.floor(loser.points - (loser.points / 10))
-    return res
 }
 
 function updateRankName(player) {

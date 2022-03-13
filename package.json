@@ -2,7 +2,7 @@
   "name": "tennis-club-api",
   "version": "1.0.0",
   "description": "Tech test where you are the president of the local Tennis Club. Your responsibilities include managing its players and their rankings. You’ve been asked to prepare a backend API in your preferred programming language that consists a series of endpoints.",
-  "main": "index.js",
+  "main": "app/lib/app.js",
   "scripts": {
     "devStart": "nodemon app.js"
   },

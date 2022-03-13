@@ -66,10 +66,6 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
 
 })
 
-// remember to display age not dob
-// add up the games played when you update match
-// ordered by points (descending)i.	The unranked players should also be ordered by points (descending) but should appear at the bottom of the list, below all other ranks.
-
 // Query string e.g. ?rank=Unranked&nationality=United+Kingdom
 
 function sortUnrankedPlayers(allPlayers) {
@@ -117,10 +113,8 @@ router.get('/all', async (req, res) => {
     req.query.nationality ? attributes.nationality = req.query.nationality : null
     req.query.rankName ? attributes.rankName = req.query.rankName : null
 
-
-
     try {
-        var allPlayers = await Player.find(attributes).lean().exec(); // When you add .lean() to the Mongoose Query Builder, it eturns a plain javascript associative array, that you can add keys to.
+        var allPlayers = await Player.find(attributes).lean().exec(); 
 
         sortPlayersByPoints(allPlayers);
         allPlayers = sortUnrankedPlayers(allPlayers) // Unranked players moved to bottom of seed ranking, while still themselves being ordered by points.
