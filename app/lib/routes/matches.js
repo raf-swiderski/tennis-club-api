@@ -2,21 +2,8 @@ const express = require('express')
 const router = express.Router()
 const Player = require('../models/player')
 var path = require('path');
-const calculatePoints = require('../business-logic/calculatePoints')
-// middleware
-
-async function checkIfMatchPlayersExist(req, res, next) {
-    let winner, loser
-    try { // checking the database. each succesful query returns an array
-        winner = await Player.find({ firstName: req.body.winnerFirstName, lastName: req.body.winnerLastName }).exec();
-        loser = await Player.find({ firstName: req.body.loserFirstName, lastName: req.body.loserLastName }).exec();
-    } catch (error) {
-        return res.status(500).json({ message: error.message })
-    }
-    res.winner = winner[0] 
-    res.loser = loser[0]
-    next()
-}
+const { calculateWinner, calculateLoser } = require('../business-logic/calculatePoints')
+const getPlayer = require('../db-queries/getPlayer');
 
 function updateRankName(player) {
     
@@ -46,13 +33,21 @@ router.get('/update', (req, res) => {
     res.sendFile(path.resolve('app/static/views/update.html'))
 });
 
-router.post('/update', checkIfMatchPlayersExist, async (req, res) => {
+router.post('/update', async (req, res, next) => {
+
+    let winner = await getPlayer(req.body.winnerFirstName, req.body.winnerLastName)
+    .then( (winner) => { res.winner = winner } )
+    let loser = await getPlayer(req.body.loserFirstName, req.body.loserLastName)
+    .then( (loser) => { res.loser = loser } )
+    next()
+}, async (req, res) => {
 
     if (res.winner == null || res.loser == null) {
         res.status(404).json({ message: 'Cannot find one or both of these players. Please check their names'})
     } else {
-        res.winner.points = calculatePoints.winner(res.winner.points, res.loser.points)
-        res.loser.points = calculatePoints.loser(res.winner.points, res.loser.points)
+        
+        res.winner.points = calculateWinner(res.winner.points, res.loser.points)
+        res.loser.points = calculateLoser(res.winner.points, res.loser.points)
 
         res.winner.gamesPlayed += 1
         res.loser.gamesPlayed += 1

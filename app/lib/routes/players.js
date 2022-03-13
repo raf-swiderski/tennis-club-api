@@ -2,19 +2,20 @@ const express = require('express')
 const router = express.Router()
 const Player = require('../models/player')
 var path = require('path');
+const getPlayer = require('../db-queries/getPlayer');
 
 // middleware
 
-async function checkIfPlayerExists(req, res, next) {
-    let player
-    try { // checking the database
-        player = await Player.find({ firstName: req.body.firstName, lastName: req.body.lastName }).exec();
-    } catch (error) {
-        return res.status(500).json({ message: error.message })
-    }
-    res.player = player[0]
-    next()
-}
+// async function checkIfPlayerExists(req, res, next) {
+//     let player
+//     try { // checking the database
+//         player = await Player.find({ firstName: req.body.firstName, lastName: req.body.lastName }).exec();
+//     } catch (error) {
+//         return res.status(500).json({ message: error.message })
+//     }
+//     res.player = player[0]
+//     next()
+// }
 
 function getAge(birthDate) { // format: '1996-06-26' => 25
     const yearInMs = 3.15576e+10 // One year in milliseconds
@@ -28,10 +29,10 @@ router.get('/', (req, res) => {
 })
 
 router.get('/register', (req, res) => {
-    res.sendFile(path.resolve('static/views/register.html'));
+    res.sendFile(path.resolve('app/static/views/register.html'));
 })
 
-router.post('/register', checkIfPlayerExists, async (req, res) => {
+router.post('/register', getPlayer, async (req, res) => {
 
     const age = getAge(req.body.dob)
 
@@ -50,7 +51,7 @@ router.post('/register', checkIfPlayerExists, async (req, res) => {
             lastName: req.body.lastName,
             nationality: req.body.nationality,
             dob: req.body.dob,
-            points: 10000,
+            points: 1200,
             rankName: 'Unranked',
             gamesPlayed: 0
         })
