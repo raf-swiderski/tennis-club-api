@@ -5,7 +5,8 @@ async function getPlayer(firstName, lastName) {
     try { 
         player = await Player.find({ firstName: firstName, lastName: lastName }).exec();
     } catch (error) {
-        return res.status(500).json({ message: error.message })
+        console.log(error)
+        return error
     }
     return player[0]
 }

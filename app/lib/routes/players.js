@@ -22,7 +22,13 @@ router.get('/register', (req, res) => {
     res.sendFile(path.resolve('app/static/views/register.html'));
 })
 
-router.post('/register', getPlayer, async (req, res) => {
+router.post('/register', async (req, res, next) => {
+
+    let player = await getPlayer(req.body.firstName, req.body.lastName)
+    .then( (response) => { res.player = response; })
+    next()
+
+}, async (req, res) => {
 
     const age = getAge(req.body.dob)
 
