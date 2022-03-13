@@ -1,9 +1,16 @@
-function calculateNewPoints(res) {
-    let winner = res.winner
-    let loser = res.loser
-    res.winner.points = Math.floor(winner.points + (loser.points / 10))
-    res.loser.points = Math.floor(loser.points - (loser.points / 10))
-    return res
+const percentage = 10 // % of loser's total points which get transferred to the winner after a match
+
+function winner(winnerPoints, loserPoints) {
+    let winner = Math.floor(winnerPoints + (loserPoints / percentage))
+    return winner
 }
 
-module.exports = calculateNewPoints;
+function loser(winnerPoints, loserPoints) {
+    let loser = Math.floor(loserPoints - (loserPoints / percentage))
+    return loser
+}
+
+module.exports = {
+    winner,
+    loser
+};
