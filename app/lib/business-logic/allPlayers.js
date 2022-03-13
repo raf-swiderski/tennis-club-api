@@ -1,5 +1,8 @@
 // Logic for the `/all` route, a route which returns a list of all the players in the club. These functions are called as middleware, modfiying the list of players into rank, as well as adding and removing properties.
 
+const getAge = require('./getAge')
+
+
 function sortUnrankedPlayers(allPlayers) { 
     var unrankedPlayers = allPlayers.filter(player => player.rankName == 'Unranked') // moves all unranked players to separate array.
 

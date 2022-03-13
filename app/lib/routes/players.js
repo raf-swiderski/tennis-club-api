@@ -3,11 +3,14 @@ const router = express.Router()
 const Player = require('../models/player')
 var path = require('path');
 const getPlayer = require('../db-queries/getPlayer');
+const getAge = require('../business-logic/getAge')
 
-function getAge(birthDate) { // format: '1996-06-26' => 25
-    const yearInMs = 3.15576e+10 // One year in milliseconds
-    return Math.floor((new Date() - new Date(birthDate).getTime()) / yearInMs)
-}
+const { sortUnrankedPlayers,
+    sortPlayersByPoints,
+    addSeed,
+    addAge,
+    deleteUnwantedProperties
+} = require('../business-logic/allPlayers')
 
 // routes
 
@@ -53,13 +56,6 @@ router.post('/register', getPlayer, async (req, res) => {
 
 
 })
-
-const { sortUnrankedPlayers,
-    sortPlayersByPoints,
-    addSeed,
-    addAge,
-    deleteUnwantedProperties
-} = require('../business-logic/allPlayers')
 
 // This route takes its parameters from the query string
 // e.g. all?rank=Unranked&nationality=United+Kingdom
