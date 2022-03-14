@@ -96,7 +96,7 @@ Next we can interact with our project at `localhost:3000`, by visiting the endpo
 
 These endpoints allow us create, update and read information on our `tennis-club` database.
 
-##### Registering a new player into the club
+#### Registering a new player into the club
 
 Endpoint: `/players/register`
 
@@ -112,7 +112,7 @@ Players must be at least 16 to register.
 
 Next, try creating a few more players so you can then register matches that have been played. 
 
-##### Registering a match that has been played
+#### Registering a match that has been played
 
 Endpoint: `/matches/update`
 
@@ -135,7 +135,7 @@ This endpoint lists all the players currently at the club, sorted by points (des
 The endpoint returns the age of each player, and their `seed`, which is their exact position in the points ranking. 
 
 
-##### Queries:
+#### Queries:
 
 For this endpoint, you can filter the data that is returned by the `nationality` and `rankName` properties, via the query string. 
 
