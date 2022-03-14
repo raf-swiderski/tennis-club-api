@@ -182,8 +182,8 @@ The API sends back an error in the form of a JSON object when the following happ
 ### Endpoints
 
 For scalability, the `players/register`&`/all` and `matches/update` endpoints are in separate routing modules. 
-The reason is because these endpoints deal with separate concerns, players and matches. Also, because enables the `matches/update` route to add match details to a separate database collection `matches`, on top of updating the `players` collection. 
-This also would make room for a `matches/all` route, where all matches played are returned. This could then be sorted by queries, to filter the results returned such as the players involved. 
+The reason is because these endpoints deal with separate concerns - players and matches. Also, because it enables the `matches/update` route to add match details to a separate database collection `matches` if this collection is needed, on top of updating the `players` collection. 
+This also would make room for a `matches/all` route, where all matches played are returned. This could then be sorted by queries, to filter the results returned, such as the players involved. 
 
 ### Code Quality
 
@@ -198,13 +198,11 @@ This also would make room for a `matches/all` route, where all matches played ar
 - Made regular git commits to track my project progress.
 - Methodically worked through the given criteria: 
     - I started by setting up the routes, html files and database. 
-    - Created a mongoose schema and a model to add players. 
+    - Created a mongoose schema / model to add players. 
     - Then moved on to all of the functionality such as `calculatePoints`.
     - Iterating over my code at all of these steps to make sure it was concise and followed OOP principles.
     - Ticking off each requirement to make sure I had them in my app. 
 - Used clear commit messages for easy use of the git log.
-
-
 
 ### Next Steps
 
