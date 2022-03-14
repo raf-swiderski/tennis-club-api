@@ -146,7 +146,7 @@ For example, if you want to get a list of players with the `United States of Ame
 
 http://localhost:3000/players/all?nationality=United+States+of+America
 
-And a list of players with the `United States of America` nationality who are not ranked:
+And a list of players with the `United States of America` nationality who are `'Unranked'`:
 
 http://localhost:3000/players/all?rankName=Unranked&nationality=United+States+of+America
 
