@@ -82,7 +82,7 @@ PORT=3000
 ```
 The database url value is telling our project where to establish a connection with MongoDB via Mongoose. 
 
-Leave the mongoDB shell open, this is required for our project to access the database. 
+Leave the mongoDB shell open in a separate terminal window, this is required for our project to access the database. 
 
 Next, start the app by running this in your terminal:
 ```
