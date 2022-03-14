@@ -9,7 +9,7 @@ Tech test where you are the president of the local Tennis Club. Your responsibil
     + [Registering a new player into the club](#registering-a-new-player-into-the-club)
     + [Registering a match that has been played](#registering-a-match-that-has-been-played)
     + [Listing all players in the club](#listing-all-players-in-the-club)
-    + [Queries](#queries-)
+    + [Queries](#queries)
 - [Tests](#tests)
 - [My Approach](#my-approach)
   * [Design](#design)
