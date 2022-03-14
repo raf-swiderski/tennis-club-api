@@ -2,7 +2,23 @@
 
 Tech test where you are the president of the local Tennis Club. Your responsibilities include managing its players and their rankings. You’ve been asked to prepare a backend API in your preferred programming language that consists a series of endpoints.
 
-[Endpoints](#Endpoints)  
+- [Tennis Club API](#tennis-club-api)
+  * [Tech Stack](#tech-stack)
+  * [Getting Started](#getting-started)
+    + [Setting up MongoDB](#setting-up-mongodb)
+  * [Endpoints](#endpoints)
+      - [Registering a new player into the club](#registering-a-new-player-into-the-club)
+      - [Registering a match that has been played](#registering-a-match-that-has-been-played)
+      - [Listing all players in the club](#listing-all-players-in-the-club)
+      - [Queries](#queries-)
+  * [Tests](#tests)
+  * [My Approach](#my-approach)
+    - [Design](#design)
+    + [Errors](#errors)
+    + [Endpoints](#endpoints-1)
+    + [Code Quality](#code-quality)
+    + [Workflow and Process](#workflow-and-process)
+    + [Next Steps](#next-steps)
 
 ## Tech Stack
 
