@@ -15,8 +15,7 @@ router.get('/update', (req, res) => {
 router.post('/update', async (req, res, next) => {
 
     let winner = await getPlayer(req.body.winnerFirstName, req.body.winnerLastName)
-    .then( (winner) => { s
-        res.winner = winner } )
+    .then( (winner) => { res.winner = winner } )
     let loser = await getPlayer(req.body.loserFirstName, req.body.loserLastName)
     .then( (loser) => { res.loser = loser } )
     next()

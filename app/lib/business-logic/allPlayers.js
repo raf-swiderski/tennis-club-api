@@ -4,9 +4,9 @@ const getAge = require('./getAge')
 
 
 function sortUnrankedPlayers(allPlayers) { 
-    var unrankedPlayers = allPlayers.filter(player => player.rankName == 'Unranked') // moves all unranked players to separate array.
+    var unrankedPlayers = allPlayers.filter(player => player.rankName == 'Unranked') // copies all unranked players to separate array.
 
-    allPlayers = allPlayers.filter(player => !unrankedPlayers.includes(player))
+    allPlayers = allPlayers.filter(player => !unrankedPlayers.includes(player)) // deletes unranked players from allPlayers
 
     sortPlayersByPoints(unrankedPlayers);
 

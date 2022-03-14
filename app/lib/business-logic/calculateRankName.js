@@ -16,7 +16,6 @@ function calculateRankName(player) {
     } else {
         player.rankName = 'Unranked'
     }
-
     return player
 }
 

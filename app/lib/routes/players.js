@@ -14,10 +14,6 @@ const { sortUnrankedPlayers,
 
 // routes
 
-router.get('/', (req, res) => {
-    res.redirect('/players/register')
-})
-
 router.get('/register', (req, res) => {
     res.sendFile(path.resolve('app/static/views/register.html'));
 })
@@ -64,7 +60,7 @@ router.post('/register', async (req, res, next) => {
 })
 
 // This route takes its parameters from the query string
-// e.g. all?rank=Unranked&nationality=United+Kingdom
+// e.g. /all?rankName=Unranked&nationality=United+Kingdom
 
 router.get('/all', async (req, res) => {
 
@@ -77,7 +73,9 @@ router.get('/all', async (req, res) => {
 
         sortPlayersByPoints(allPlayers);
         allPlayers = sortUnrankedPlayers(allPlayers) // Unranked players moved to bottom of seed ranking, while still themselves being ordered by points.
-        addSeed(allPlayers); // adding these properties to each Player. 'Seed' is the current position in the whole ranking. 
+
+        // adding these properties to each Player. 'Seed' is the current position in the whole ranking. 
+        addSeed(allPlayers); 
         addAge(allPlayers);
 
         // remove 'id', '__v', 'dob' properties
