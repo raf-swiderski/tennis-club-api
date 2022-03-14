@@ -124,7 +124,7 @@ The following data should be seen:
 
 <img width="500" alt="Screenshot 2022-03-14 at 12 39 10" src="https://user-images.githubusercontent.com/76166627/158173780-23de8fb6-2205-49b6-8394-565f2efffa03.png">
 
-##### Listing all players in the club
+#### Listing all players in the club
 
 Endpoint: `/players/all`
 
