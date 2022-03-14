@@ -4,7 +4,7 @@ Tech test where you are the president of the local Tennis Club. Your responsibil
 
 ## Tech Stack
 
-Node.js, MongoDB, Jest.
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)  ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 
 Dependencies:
 ```
@@ -33,12 +33,13 @@ npm i
 
 ### Setting up MongoDB
 
-Next we need to set up the database locally. This project uses Mongoose, a dependency which simplifies interacting with MongoDB for our project.
+Next we need to set up the database locally. This project uses `mongoose`, a dependency which simplifies interacting with MongoDB for our project.
 If you don't have MongoDB Community Edition set up (which is the free version), you can install it with Homebrew using the following command in your terminal:
 ```
 brew install mongodb-community@5.0
 ```
-If you're having trouble installing, visit the manual here: docs.mongodb.com/manual/administration/install-community/
+If you're having trouble installing, visit the manual here: 
+[docs.mongodb.com/manual/administration/install-community/](https://docs.mongodb.com/manual/administration/install-community/)
 
 Next, we need to access MongoDB in the terminal:
 ```
@@ -50,9 +51,10 @@ Next, we need to create a `tennis-club` database:
 use tennis-club
 ``` 
 
-We're done with the shell for the moment, but here is more information if needed: docs.mongodb.com/mongodb-shell/run-commands/
+We're done with the shell for the moment, but here is more information if needed: 
+[docs.mongodb.com/mongodb-shell/run-commands/](https://docs.mongodb.com/mongodb-shell/run-commands/)
 
-Lastly, we need to create a `.env` file which will contain our environment variables.
+Lastly, we need to create a `.env` file which will contain our environment variables. 
 ```
 touch .env
 ```
@@ -63,11 +65,19 @@ PORT=3000
 ```
 The database url value is telling our project where to establish a connection with MongoDB via Mongoose. 
 
-Next we can interact with our project at http://localhost:3000/players
+Leave the mongoDB shell open, this is required for our project to access the database. 
+
+Next, start the app by running this in your terminal:
+```
+npm run devStart
+```
+
+Next we can interact with our project at `localhost:3000`, by visiting the endpoints below in our browser: 
+
 
 ## Endpoints
 
-These endpoints allow us create, update and read information our `tennis-club` database.
+These endpoints allow us create, update and read information on our `tennis-club` database.
 
 ##### Registering a new player into the club
 
@@ -105,6 +115,8 @@ This endpoint lists all the players currently at the club, sorted by points (des
 
 <img width="250" alt="Screenshot 2022-03-14 at 12 46 40" src="https://user-images.githubusercontent.com/76166627/158174897-e9d347a8-d93a-451f-bfb8-9d502ba9b603.png">
   
+The endpoint returns the age of each player, and their `seed`, which is their exact position in the points ranking. 
+
 
 ##### Queries:
 
@@ -121,7 +133,7 @@ http://localhost:3000/players/all?rankName=Unranked&nationality=United+States+of
 
 ## Tests
 
-This project uses the `jest` testing framework.
+This project uses the `jest` testing framework for the unit tests.
 
 To run the tests:
 ```
@@ -132,11 +144,13 @@ npm test
 
 ### Design
 
-I chose to build this API using Node.js. The endpoints also serve static html files in order to manually test the functionality by posting the player's information, but a frontend dev could just as easily make POST requests by adding the player names to the `req.body` object in their request.  
+I chose to build this API using Node.js, vanilla JS and HTML.
+
+The endpoints also serve static html files in order to manually test the functionality by posting the player's information, but a frontend dev could just as easily make requests by adding the player names in body of the `req` object in their POST request.  
 
 ### Errors
 
-The API send back an error in the form of a JSON object when the following happens at these routes:
+The API sends back an error in the form of a JSON object when the following happens at these routes:
 
 `players/register`: 
 - The entered name already exists in the database. 
@@ -147,17 +161,17 @@ The API send back an error in the form of a JSON object when the following happe
 
 ### Endpoints
 
-For scalability, the `players/register`&`/all` and `matches/update` endpoints are separated into separate routes. 
-The reason is because these endpoints dealt with separate concerns, players and matches. Also, because this allows the `matches/update` route to be used to add match details to a separate database collection `matches`, on top of updating the `players` collection.
-This also would make room for a `matches/all` route, where all the matches played are returned. This could then be sorted by queries, to filter the results returned such as the players involved. 
+For scalability, the `players/register`&`/all` and `matches/update` endpoints are in separate routing modules. 
+The reason is because these endpoints deal with separate concerns, players and matches. Also, because enables the `matches/update` route to add match details to a separate database collection `matches`, on top of updating the `players` collection. 
+This also would make room for a `matches/all` route, where all matches played are returned. This could then be sorted by queries, to filter the results returned such as the players involved. 
 
 ### Code Quality
 
-- I used OOP principles to ensure my code stayed readable and maintainable.
+- Used OOP principles to ensure my code stayed readable and maintainable.
 - Applied the Single Responsibility Principle in keeping functions short and with a clear purpose, e.g. I used a single function to access each `player` from the database, using it multiple times, instead of creating a separate function if I had wanted to retrieve several players.
 - Made use of Express middleware to edit the `req` and `res` objects, which made it clear what I was editing and sending back to the frontend.
 - While I used the express framework, I manually created routing modules, separating them into `players` and `matches`. 
-- I also created a project structure that is easy to understand, for example I separated out my JS functions into a separate `business-logic` file, keeping my `routes` and `model` files separate as well, so that each files have separate purposes. 
+- I also created a project structure that is easy to understand, for example I separated out my JS functions into a separate `business-logic` file, keeping my `routes` and `model` files separate as well, so that each folders have separate purposes. 
 
 ### Workflow and Process
 
